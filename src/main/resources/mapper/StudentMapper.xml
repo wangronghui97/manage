@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.demo.needmanage.dao.StudentMapper" >
+  <resultMap id="BaseResultMap" type="com.demo.needmanage.entity.Student" >
+    <constructor >
+      <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="student_num" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="name" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="sex" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="password" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="special_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="class_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="address" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="depatment_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="grade" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+
+  <resultMap id="mResultMap" type="com.demo.needmanage.dto.StudentDto">
+    <id property="id" column="id"/>
+    <result property="studentNum" column="student_num"/>
+    <result property="name" column="name"/>
+    <result property="sex" column="sex"/>
+    <result property="address" column="address"/>
+    <result property="grade" column="grade"/>
+    <result property="depatmentName" column="depatmentName"/>
+    <result property="className" column="className"/>
+    <result property="specialName" column="specialName"/>
+
+
+
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, student_num, name, sex, password, special_id, class_id, address, depatment_id, 
+    grade
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from student
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from student
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.demo.needmanage.entity.Student" >
+    insert into student (id, student_num, name, 
+      sex, password, special_id, 
+      class_id, address, depatment_id, 
+      grade)
+    values (#{id,jdbcType=INTEGER}, #{studentNum,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{sex,jdbcType=INTEGER}, #{password,jdbcType=VARCHAR}, #{specialId,jdbcType=INTEGER}, 
+      #{classId,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, #{depatmentId,jdbcType=INTEGER}, 
+      #{grade,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.demo.needmanage.entity.Student" >
+    insert into student
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="studentNum != null" >
+        student_num,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="specialId != null" >
+        special_id,
+      </if>
+      <if test="classId != null" >
+        class_id,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="depatmentId != null" >
+        depatment_id,
+      </if>
+      <if test="grade != null" >
+        grade,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="studentNum != null" >
+        #{studentNum,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="specialId != null" >
+        #{specialId,jdbcType=INTEGER},
+      </if>
+      <if test="classId != null" >
+        #{classId,jdbcType=INTEGER},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="depatmentId != null" >
+        #{depatmentId,jdbcType=INTEGER},
+      </if>
+      <if test="grade != null" >
+        #{grade,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.demo.needmanage.entity.Student" >
+    update student
+    <set >
+      <if test="studentNum != null" >
+        student_num = #{studentNum,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="specialId != null" >
+        special_id = #{specialId,jdbcType=INTEGER},
+      </if>
+      <if test="classId != null" >
+        class_id = #{classId,jdbcType=INTEGER},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="depatmentId != null" >
+        depatment_id = #{depatmentId,jdbcType=INTEGER},
+      </if>
+      <if test="grade != null" >
+        grade = #{grade,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.demo.needmanage.entity.Student" >
+    update student
+    set student_num = #{studentNum,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=INTEGER},
+      password = #{password,jdbcType=VARCHAR},
+      special_id = #{specialId,jdbcType=INTEGER},
+      class_id = #{classId,jdbcType=INTEGER},
+      address = #{address,jdbcType=VARCHAR},
+      depatment_id = #{depatmentId,jdbcType=INTEGER},
+      grade = #{grade,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectAllStudent" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from student
+
+  </select>
+
+  <select id="selectByOffset" resultMap="mResultMap">
+    SELECT student.id, student.student_num, student.name, student.sex,   student.address, student.grade,
+    depatment.name AS depatmentName,class.name AS className,special.name AS specialName,student.depatment_id as depatmentId,student.class_id as classId,student.special_id as specialId
+    FROM student,depatment,special,class
+    where
+    student.depatment_id=depatment.id
+    AND
+    student.special_id=special.id
+    AND
+    student.class_id=class.id
+    limit #{offset},#{limit}
+
+  </select>
+
+
+  <select id="selectByNameAndPassword"  resultMap="mResultMap">
+
+    SELECT student.id, student.student_num, student.name, student.sex, student.password,  student.address, student.grade,
+    depatment.name AS depatmentName,class.name AS className,special.name AS specialName
+    FROM student,depatment,special,class
+    where student_num=#{name} and password=#{password}
+    AND
+    student.depatment_id=depatment.id
+    AND
+    student.special_id=special.id
+    AND
+    student.class_id=class.id
+
+  </select>
+
+  <select id="selectByIdjiaqiang"  resultMap="mResultMap">
+
+    SELECT student.id, student.student_num, student.name, student.sex, student.password,  student.address, student.grade,
+    depatment.name AS depatmentName,class.name AS className,special.name AS specialName
+    FROM student,depatment,special,class
+    where student.id=#{id}
+    AND
+    student.depatment_id=depatment.id
+    AND
+    student.special_id=special.id
+    AND
+    student.class_id=class.id
+
+  </select>
+
+  <select id="selectByStudentNumJiaQiang"  resultMap="mResultMap">
+
+    SELECT student.id, student.student_num, student.name, student.sex, student.password,  student.address, student.grade,
+    depatment.name AS depatmentName,class.name AS className,special.name AS specialName
+    FROM student,depatment,special,class
+    where student_num=#{studentNum}
+    AND
+    student.depatment_id=depatment.id
+    AND
+    student.special_id=special.id
+    AND
+    student.class_id=class.id
+
+  </select>
+
+  <select id="selectByStudentNum" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from student
+    where student_num=#{studentNum}
+  </select>
+
+
+  <delete id="deleteByClass" parameterType="java.lang.Integer" >
+    delete from student
+    where class_id = #{classId}
+  </delete>
+
+
+</mapper>

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.demo.needmanage.dao.ClassMapper" >
+  <resultMap id="BaseResultMap" type="com.demo.needmanage.entity.Class" >
+    <constructor >
+      <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="name" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="special_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="depatment_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="instructor_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="grade" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, special_id, depatment_id, instructor_id, grade
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from class
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from class
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.demo.needmanage.entity.Class" >
+    insert into class (id, name, special_id, 
+      depatment_id, instructor_id, grade
+      )
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{specialId,jdbcType=INTEGER}, 
+      #{depatmentId,jdbcType=INTEGER}, #{instructorId,jdbcType=INTEGER}, #{grade,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.demo.needmanage.entity.Class" >
+    insert into class
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="specialId != null" >
+        special_id,
+      </if>
+      <if test="depatmentId != null" >
+        depatment_id,
+      </if>
+      <if test="instructorId != null" >
+        instructor_id,
+      </if>
+      <if test="grade != null" >
+        grade,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="specialId != null" >
+        #{specialId,jdbcType=INTEGER},
+      </if>
+      <if test="depatmentId != null" >
+        #{depatmentId,jdbcType=INTEGER},
+      </if>
+      <if test="instructorId != null" >
+        #{instructorId,jdbcType=INTEGER},
+      </if>
+      <if test="grade != null" >
+        #{grade,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.demo.needmanage.entity.Class" >
+    update class
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="specialId != null" >
+        special_id = #{specialId,jdbcType=INTEGER},
+      </if>
+      <if test="depatmentId != null" >
+        depatment_id = #{depatmentId,jdbcType=INTEGER},
+      </if>
+      <if test="instructorId != null" >
+        instructor_id = #{instructorId,jdbcType=INTEGER},
+      </if>
+      <if test="grade != null" >
+        grade = #{grade,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.demo.needmanage.entity.Class" >
+    update class
+    set name = #{name,jdbcType=VARCHAR},
+      special_id = #{specialId,jdbcType=INTEGER},
+      depatment_id = #{depatmentId,jdbcType=INTEGER},
+      instructor_id = #{instructorId,jdbcType=INTEGER},
+      grade = #{grade,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+  <select id="selectAllClass" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from class
+
+  </select>
+
+  <select id="selectByOffset" resultType="com.demo.needmanage.dto.ClassDto" >
+    SELECT
+    class.id AS id,class.name AS NAME,class.grade AS grade,special.name AS specialName,depatment.name AS depatmentName,instructor.number AS instructorNum,
+    class.special_id as specialId,class.depatment_id as depatmentId,class.instructor_id as instructorId
+    FROM
+    class LEFT JOIN special ON class.special_id=special.id LEFT JOIN depatment ON depatment.id=class.depatment_id LEFT JOIN instructor ON instructor.id=class.instructor_id
+     limit #{offset},#{limit}
+
+  </select>
+
+  <update id="updateByInstructor" >
+    UPDATE
+    class
+    SET instructor_id=0
+    WHERE instructor_id=#{id};
+  </update>
+
+  <select id="selectBySelective" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from class
+    where special_id=#{specialId}
+    and depatment_id=#{depatmentId}
+    and name=#{name}
+
+  </select>
+
+  <select id="selectBySpecialId" resultType="Integer" >
+    select
+    id
+    from class
+    where special_id=#{id}
+
+
+  </select>
+
+  <select id="selectByDepatmentId" resultType="Integer" >
+    select
+    id
+    from class
+    where depatment_id=#{id}
+
+
+  </select>
+
+</mapper>

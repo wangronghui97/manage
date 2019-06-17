@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.demo.needmanage.dao.SpecialMapper" >
+  <resultMap id="BaseResultMap" type="com.demo.needmanage.entity.Special" >
+    <constructor >
+      <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="depatment_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="name" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, depatment_id, name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from special
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from special
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.demo.needmanage.entity.Special" >
+    insert into special (id, depatment_id, name
+      )
+    values (#{id,jdbcType=INTEGER}, #{depatmentId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.demo.needmanage.entity.Special" >
+    insert into special
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="depatmentId != null" >
+        depatment_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="depatmentId != null" >
+        #{depatmentId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.demo.needmanage.entity.Special" >
+    update special
+    <set >
+      <if test="depatmentId != null" >
+        depatment_id = #{depatmentId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.demo.needmanage.entity.Special" >
+    update special
+    set depatment_id = #{depatmentId,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+  <select id="selectAllSpecial" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from special
+  </select>
+
+  <select id="selectByOffset" resultType="com.demo.needmanage.dto.SpecialDto" >
+    SELECT
+    special.id AS id,special.name AS NAME,depatment.name as depatmentName
+    FROM
+    special LEFT JOIN depatment ON special.depatment_id=depatment.id
+    limit #{offset},#{limit}
+  </select>
+
+
+  <select id="selectBySelective" resultMap="BaseResultMap" parameterType="com.demo.needmanage.entity.Special" >
+    select
+    <include refid="Base_Column_List" />
+    from special
+    where depatment_id=#{depatmentId}
+    and name=#{name}
+  </select>
+
+  <select id="selectByDepatmentId" resultType="Integer"  >
+    select
+    id
+    from special
+    where depatment_id=#{id}
+
+  </select>
+
+</mapper>
